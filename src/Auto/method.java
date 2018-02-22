@@ -282,9 +282,9 @@ public class method {
 			FileWriter fw = new FileWriter(FilePath + TestCase.CaseList.get(CurrentCaseNumber).toString() + "_"
 					+ reportDate + "_log" + ".txt");
 			for (LogEntry entry : logEntries) {
-				fw.write(entry.getTimestamp() + "\r\n");
-				fw.write(entry.getLevel() + "\r\n");
-				fw.write(entry.getMessage() + "\r\n");
+				fw.write("Timestamp:" + entry.getTimestamp() + "\r\n");
+				fw.write("Level:" + entry.getLevel() + "\r\n");
+				fw.write("Message:" + entry.getMessage() + "\r\n");
 			}
 			fw.flush();
 			fw.close();
@@ -309,7 +309,7 @@ public class method {
 	}
 
 	public String MakeErrorFolder() {
-		// 資料夾結構 C:\TUTK_QA_TestTool\TestReport\appPackage\CaseName\DeviceUdid
+		// 資料夾結構 C:\TUTK_QA_TestTool\TestReport\TestURL\CaseName\Browser
 		String filePath = "C:\\TUTK_QA_TestTool\\TestReport\\"
 				+ TestCase.DeviceInformation.URL.replaceAll("//", "").replaceAll("https:", "").replaceAll("/", "")
 						.replaceAll("http:", "").toString()
@@ -358,8 +358,6 @@ public class method {
 			AllResultList.add(ResultList);
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
-			// System.err.println("[Error] Can't find " + appElemnt);
-			// element[i] = "ERROR";// 找不到該物件，回傳Error
 		}
 	}
 
@@ -393,8 +391,6 @@ public class method {
 
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
-			// System.err.println("[Error] Can't find " + appElemnt);
-			// element[i] = "ERROR";// 找不到該物件，回傳Error
 		}
 	}
 
@@ -408,10 +404,6 @@ public class method {
 
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
-			// System.err.println("[Error] Can't find " + appElemnt);
-			// CommandError = false;// 若找不到指定元件，則設定CommandError=false
-			// driver[i].quit();// 若找不到指定元件，則關閉Browser
-
 		}
 	}
 
@@ -425,9 +417,6 @@ public class method {
 
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
-			// System.err.println("[Error] Can't find " + appElemnt);
-			// CommandError = false;// 若找不到指定元件，則設定CommandError=false
-			// driver[i].quit();// 若找不到指定元件，則關閉Browser
 		}
 
 	}
@@ -442,9 +431,6 @@ public class method {
 
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
-			// System.err.println("[Error] Can't find " + appElemnt);
-			// CommandError = false;// 若找不到指定元件，則設定CommandError=false
-			// driver[i].quit();// 若找不到指定元件，則關閉Browser
 
 		}
 	}
@@ -459,9 +445,6 @@ public class method {
 
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
-			// System.err.println("[Error] Can't find " + appElemnt);
-			// CommandError = false;// 若找不到指定元件，則設定CommandError=false
-			// driver[i].quit();// 若找不到指定元件，則關閉Browser
 		}
 
 	}
@@ -480,10 +463,6 @@ public class method {
 
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
-			// System.err.println("[Error] Can't find " + appElemnt);
-			// CommandError = false;// 若找不到指定元件，則設定CommandError=false
-			// driver[i].quit();// 若找不到指定元件，則關閉Browser
-
 		}
 	}
 
@@ -501,9 +480,6 @@ public class method {
 
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
-			// System.err.println("[Error] Can't find " + appElemnt);
-			// CommandError = false;// 若找不到指定元件，則設定CommandError=false
-			// driver[i].quit();// 若找不到指定元件，則關閉Browser
 		}
 
 	}
@@ -518,10 +494,6 @@ public class method {
 
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
-			// System.err.println("[Error] Can't find " + appElemnt);
-			// CommandError = false;// 若找不到指定元件，則設定CommandError=false
-			// driver[i].quit();// 若找不到指定元件，則關閉Browser
-
 		}
 	}
 
@@ -535,10 +507,6 @@ public class method {
 
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
-			// System.err.println("[Error] Can't find " + appElemnt);
-			// CommandError = false;// 若找不到指定元件，則設定CommandError=false
-			// driver[i].quit();// 若找不到指定元件，則關閉Browser
-
 		}
 	}
 
@@ -552,9 +520,6 @@ public class method {
 
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
-			// System.err.println("[Error] Can't find " + appElemnt);
-			// CommandError = false;// 若找不到指定元件，則設定CommandError=false
-			// driver[i].quit();// 若找不到指定元件，則關閉Browser
 		}
 
 	}
@@ -569,10 +534,6 @@ public class method {
 
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
-			// System.err.println("[Error] Can't find " + appElemnt);
-			// CommandError = false;// 若找不到指定元件，則設定CommandError=false
-			// driver[i].quit();// 若找不到指定元件，則關閉Browser
-
 		}
 	}
 
@@ -586,11 +547,7 @@ public class method {
 
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
-			// System.err.println("[Error] Can't find " + appElemnt);
-			// CommandError = false;// 若找不到指定元件，則設定CommandError=false
-			// driver[i].quit();// 若找不到指定元件，則關閉Browser
 		}
-
 	}
 
 	public void ByXpath_Clear() throws IOException {
@@ -602,9 +559,6 @@ public class method {
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(appElemnt))).clear();
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
-			// System.err.println("[Error] Can't find " + appElemnt);
-			// CommandError = false;// 若找不到指定元件，則設定CommandError=false
-			// driver.quit();// 若找不到指定元件，則關閉Browser
 		}
 	}
 
@@ -621,14 +575,12 @@ public class method {
 			System.out.println("[info] Executing:|Launch|" + TestCase.DeviceInformation.Browser + "|"
 					+ TestCase.DeviceInformation.URL + "|");
 			driver = new RemoteWebDriver(new URL("http://localhost:" + port + "/wd/hub"), cap);
-			driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+			driver.manage().timeouts().pageLoadTimeout(command_timeout, TimeUnit.SECONDS);
 			driver.manage().window().maximize();
 			driver.get(TestCase.DeviceInformation.URL);
 
 		} catch (Exception e1) {
 			ErrorCheck("Launch");
-			// System.err.println("[Error] Can't launch " +
-			// TestCase.DeviceInformation.Browser.toString());
 		}
 
 	}
