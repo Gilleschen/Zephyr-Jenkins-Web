@@ -259,7 +259,6 @@ public class method {
 			}
 		}
 		System.err.println(" " + reportDate);
-		// System.err.println("[Error] APP quit unexpectedly.");
 		String FilePath = MakeErrorFolder();// 建立各案例資料夾存放log資訊及Screenshot資訊
 		ErrorScreenShot(FilePath);// Screenshot Error畫面
 		logcat(FilePath);// 收集閃退logcat
@@ -269,14 +268,12 @@ public class method {
 	}
 
 	public void logcat(String FilePath) throws IOException {
-		// 收集閃退log
+		// 收集log
 		// System.out.println("[info] Saving device log...");
 		DateFormat df = new SimpleDateFormat("yyyy_MM_dd_HH-mm-ss");
 		Date today = Calendar.getInstance().getTime();
 		String reportDate = df.format(today);
 
-		// List<LogEntry> logEntries = (List<LogEntry>)
-		// driver.manage().logs().get(LogType.BROWSER);
 		LogEntries logEntries = driver.manage().logs().get(LogType.BROWSER);
 		try {
 			FileWriter fw = new FileWriter(FilePath + TestCase.CaseList.get(CurrentCaseNumber).toString() + "_"
@@ -431,7 +428,6 @@ public class method {
 
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
-
 		}
 	}
 
@@ -504,7 +500,6 @@ public class method {
 			WebDriverWait wait = new WebDriverWait(driver, command_timeout);
 			wait = new WebDriverWait(driver, command_timeout);
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id(appElemnt)));
-
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
 		}
@@ -517,7 +512,6 @@ public class method {
 			WebDriverWait wait = new WebDriverWait(driver, command_timeout);
 			wait = new WebDriverWait(driver, command_timeout);
 			wait.until(ExpectedConditions.presenceOfElementLocated(By.id(appElemnt)));
-
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
 		}
@@ -531,7 +525,6 @@ public class method {
 			WebDriverWait wait = new WebDriverWait(driver, command_timeout);
 			wait = new WebDriverWait(driver, command_timeout);
 			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(appElemnt)));
-
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
 		}
@@ -544,7 +537,6 @@ public class method {
 			WebDriverWait wait = new WebDriverWait(driver, command_timeout);
 			wait = new WebDriverWait(driver, command_timeout);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(appElemnt))).clear();
-
 		} catch (Exception e) {
 			ErrorCheck(appElemnt);
 		}
@@ -582,7 +574,6 @@ public class method {
 		} catch (Exception e1) {
 			ErrorCheck("Launch");
 		}
-
 	}
 
 	public void Quit() throws IOException {
@@ -614,7 +605,6 @@ public class method {
 		} catch (Exception e) {
 			ErrorCheck("Quit");
 		}
-
 	}
 
 	public void Sleep() throws IOException {
@@ -642,9 +632,6 @@ public class method {
 
 		} catch (IOException e) {
 			ErrorCheck("ScreenShot");
-			// System.err.println("[Error]Fail to ScreenShot");
-			// CommandError = false;// 若找不到指定元件，則設定CommandError=false
-			// driver.quit();// 若找不到指定元件，則關閉Browser
 		}
 
 	}
@@ -654,12 +641,8 @@ public class method {
 		try {
 			System.out.println("[info] Executing:|Back|");
 			driver.navigate().back();
-
 		} catch (Exception e) {
 			ErrorCheck("Back");
-			// System.err.println("[Error] Can't execute Back button");
-			// CommandError = false;// 若找不到指定元件，則設定CommandError=false
-			// driver[i].quit();// 若找不到指定元件，則關閉Browser
 		}
 
 	}
@@ -671,9 +654,6 @@ public class method {
 			driver.navigate().forward();
 		} catch (Exception e) {
 			ErrorCheck("Next");
-			// System.err.println("[Error] Can't execute Next button");
-			// CommandError = false;// 若找不到指定元件，則設定CommandError=false
-			// driver[i].quit();// 若找不到指定元件，則關閉Browser
 		}
 
 	}
@@ -685,9 +665,6 @@ public class method {
 			driver.navigate().refresh();
 		} catch (Exception e) {
 			ErrorCheck("Refresh");
-			// System.err.println("[Error] Can't execute Refresh");
-			// CommandError = false;// 若找不到指定元件，則設定CommandError=false
-			// driver[i].quit();// 若找不到指定元件，則關閉Browser
 		}
 	}
 
@@ -698,9 +675,6 @@ public class method {
 			driver.navigate().to(appInput);
 		} catch (Exception e) {
 			ErrorCheck("Goto");
-			// System.err.println("[Error] Can't execute Goto " + appInput);
-			// CommandError = false;// 若找不到指定元件，則設定CommandError=false
-			// driver[i].quit();// 若找不到指定元件，則關閉Browser
 		}
 	}
 }
