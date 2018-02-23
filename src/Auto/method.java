@@ -306,12 +306,12 @@ public class method {
 	}
 
 	public String MakeErrorFolder() {
-		// 資料夾結構 C:\TUTK_QA_TestTool\TestReport\TestURL\CaseName\Browser
+		// 資料夾結構 C:\TUTK_QA_TestTool\TestReport\TestURL\CaseName\Browser\log\
 		String filePath = "C:\\TUTK_QA_TestTool\\TestReport\\"
 				+ TestCase.DeviceInformation.URL.replaceAll("//", "").replaceAll("https:", "").replaceAll("/", "")
 						.replaceAll("http:", "").toString()
 				+ "\\" + TestCase.CaseList.get(CurrentCase).toString() + "\\" + TestCase.DeviceInformation.Browser
-				+ "\\";
+				+ "\\log\\";
 		File file = new File(filePath);
 		if (!file.exists()) {
 			file.mkdirs();
@@ -620,14 +620,24 @@ public class method {
 
 		try {
 
+			String filePath = "C:\\TUTK_QA_TestTool\\TestReport\\"
+					+ TestCase.DeviceInformation.URL.replaceAll("//", "").replaceAll("https:", "").replaceAll("/", "")
+							.replaceAll("http:", "").toString()
+					+ "\\" + TestCase.CaseList.get(CurrentCase).toString() + "\\" + TestCase.DeviceInformation.Browser
+					+ "\\ScreenShot\\";
+			File file = new File(filePath);
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+
 			DateFormat df = new SimpleDateFormat("yyyy_MM_dd_HH-mm-ss");
 			Date today = Calendar.getInstance().getTime();
 			String reportDate = df.format(today);
 
 			File screenShotFile = (File) ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 			System.out.println("[info] Executing:|ScreenShot|");
-			FileUtils.copyFile(screenShotFile, new File("C:\\TUTK_QA_TestTool\\TestReport\\"
-					+ TestCase.CaseList.get(CurrentCaseNumber) + "_" + reportDate + ".jpg"));
+			FileUtils.copyFile(screenShotFile,
+					new File(filePath + TestCase.CaseList.get(CurrentCaseNumber) + "_" + reportDate + ".jpg"));
 			System.out.println("[Log] " + "ScreenShot Successfully!! (Name:CaseName+Month+Day+Hour+Minus+Second)");
 
 		} catch (IOException e) {
