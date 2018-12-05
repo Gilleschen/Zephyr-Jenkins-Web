@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
@@ -27,8 +26,10 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
@@ -44,14 +45,15 @@ import com.google.common.base.Stopwatch;
 public class method {
 	static LoadTestCase TestCase = new LoadTestCase();
 	LoadExpectResult ExpectResult = new LoadExpectResult();
-
+	static String CaseErrorList[] = new String[TestCase.CaseList.size()];// 紀錄各案例於各裝置之指令結果
+																			// (1維陣列)CaseErrorList[CaseList]
 	static int port = 5555;
 	static int command_timeout = 30;// 30sec
 	static String appElemnt;// APP元件名稱
 	static String appInput;// 輸入值
 	static String appInputXpath;// 輸入值的Xpath格式
 	static String element;
-	static WebDriver driver = null;
+	static WebDriver driver;
 	static ArrayList ResultList = new ArrayList();// 各測試案例的執行結果(一維)
 	static ArrayList<ArrayList> AllResultList = new ArrayList<ArrayList>();// 所有測試案例的執行結果(二維)
 	static Boolean VerifiedResult;// Verified判斷結果；ture為正確；false為錯誤
@@ -61,6 +63,7 @@ public class method {
 	XSSFSheet Sheet;
 	XSSFWorkbook workBook;
 	static int CurrentCase;
+
 
 	public ArrayList<ArrayList> method() throws IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, InstantiationException, NoSuchMethodException, SecurityException {
@@ -216,7 +219,6 @@ public class method {
 		}
 		System.out.println("測試結束!!!" + "(" + totaltime + " s)");
 		return AllResultList;
-
 	}
 
 	public void ErrorCheck(Object... elements) throws IOException {
@@ -261,12 +263,14 @@ public class method {
 		System.err.println(" " + reportDate);
 		String FilePath = MakeErrorFolder();// 建立各案例資料夾存放log資訊及Screenshot資訊
 		ErrorScreenShot(FilePath);// Screenshot Error畫面
-		logcat(FilePath);// 收集閃退logcat
+		//logcat(FilePath);// 收集閃退logcat
 		CommandError = false;// 設定CommandError=false
 		ResultList.add("error");
 		AllResultList.add(ResultList);
+		System.out.print("[Result] " + TestCase.CaseList.get(CurrentCaseNumber).toString() + ":ERROR!");
 	}
-
+	
+	// 目前Driver 無法取得log資訊
 	public void logcat(String FilePath) throws IOException {
 		// 收集log
 		// System.out.println("[info] Saving device log...");
@@ -298,7 +302,7 @@ public class method {
 			Date today = Calendar.getInstance().getTime();
 			String reportDate = df.format(today);
 			File screenShotFile = (File) ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-			FileUtils.copyFile(screenShotFile,
+			FileHandler.copy(screenShotFile,
 					new File(FilePath + TestCase.CaseList.get(CurrentCaseNumber) + "_" + reportDate + ".jpg"));
 		} catch (IOException e) {
 			System.err.println("[Error] Fail to ErrorScreenShot.");
@@ -556,17 +560,20 @@ public class method {
 
 	public void Launch() throws IOException {
 		CurrentCaseNumber = CurrentCaseNumber + 1;
-		DesiredCapabilities cap = null;
-		LoggingPreferences logs = new LoggingPreferences();
-		logs.enable(LogType.BROWSER, Level.ALL);
-		cap = new DesiredCapabilities();
-		cap.setBrowserName(TestCase.DeviceInformation.Browser);
-		cap.setCapability(CapabilityType.LOGGING_PREFS, logs);
+		System.out.println("[info] Executing:|Launch Browser|" + TestCase.DeviceInformation.Browser + "|"
+				+ TestCase.DeviceInformation.URL + "|");
 
 		try {
-			System.out.println("[info] Executing:|Launch|" + TestCase.DeviceInformation.Browser + "|"
-					+ TestCase.DeviceInformation.URL + "|");
-			driver = new RemoteWebDriver(new URL("http://localhost:" + port + "/wd/hub"), cap);
+			switch (TestCase.DeviceInformation.Browser) {
+			case "chrome":
+				System.setProperty("webdriver.chrome.driver", TestCase.DeviceInformation.DriverPath.toString());
+				driver = new ChromeDriver();
+				break;
+			case "firefox":
+				System.setProperty("webdriver.gecko.driver", TestCase.DeviceInformation.DriverPath.toString());
+				driver = new FirefoxDriver();
+				break;
+			}
 			driver.manage().timeouts().pageLoadTimeout(command_timeout, TimeUnit.SECONDS);
 			driver.manage().window().maximize();
 			driver.get(TestCase.DeviceInformation.URL);
@@ -636,7 +643,7 @@ public class method {
 
 			File screenShotFile = (File) ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 			System.out.println("[info] Executing:|ScreenShot|");
-			FileUtils.copyFile(screenShotFile,
+			FileHandler.copy(screenShotFile,
 					new File(filePath + TestCase.CaseList.get(CurrentCaseNumber) + "_" + reportDate + ".jpg"));
 			System.out.println("[Log] " + "ScreenShot Successfully!! (Name:CaseName+Month+Day+Hour+Minus+Second)");
 
